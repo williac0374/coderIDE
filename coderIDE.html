@@ -113,7 +113,7 @@ var caps = false;
 //if(e.getModifierState('CapsLock')){cText.innerText='CAPS LOCK IS ON!!'}else{cText.innerText='caps off'}
 var cText = document.getElementById("CAPS")
 addEventListener("keydown", function(e){if (e.keyCode==20){if(!e.getModifierState('CapsLock')){cText.innerText='CAPS LOCK IS ON!!'}else{cText.innerText='caps off'}};if (e.keyCode==16){shiftMod=true};if (e.keyCode==17){controlMod=true}}, false);
-addEventListener("keyup", function(e){if (e.keyCode==17){controlMod=false}}, false);
+addEventListener("keyup", function(e){if (e.keyCode==115){run()}if (e.keyCode==17){controlMod=false}}, false);
 window.addEventListener('beforeunload', function(e){
   var message = 'are you sure you want to leave?';
   (e || window.event).returnValue = message;
@@ -638,7 +638,7 @@ function formatCode(inputCode) {
     reader.onload = function(){
       var text = reader.result; var name = document.getElementById('fread');
       saveName=name.files.item(0).name
-      console.log(saveName)
+      console.log(name.files.item(0))
       let temp = saveName.split('.')
       document.title=saveName;
       if(localStorage.getItem(document.title)!=null){
@@ -664,6 +664,15 @@ function formatCode(inputCode) {
     var myWindow = window.open();
     //myWindow.document.title = 'testing';
     myWindow.document.write(code);
+    myWindow.onerror = function(message, source, lineno, colno, error) {
+      // Display the error in an alert
+      if(confirm(
+      "Error: " + message + "\n" +
+      "Source: " + source + "\n" +
+      "Line: " + lineno + ", Column: " + colno + "\n" +
+      "Error object: " + error
+      )){myWindow.close()};
+    };
     var t = document.title.split('.');
     //myWindow.document.title= '###'+t[0]+'###';
     editor.getInputField().focus();
@@ -703,5 +712,6 @@ function formatCode(inputCode) {
   </script>
   </body>
   </html>
+  
   
   
